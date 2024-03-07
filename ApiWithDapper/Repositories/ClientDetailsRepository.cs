@@ -34,14 +34,14 @@ namespace ApiWithDapper.Repositories
             dynamicParameters.Add("ClientId", clientDetails.ClientId);
 
             var result = _dbConnection.Execute("InsertClientDetails", dynamicParameters, commandType: CommandType.StoredProcedure);
-
-            if (result < 0)
+            //SET NOCOUNT OFF;
+            if (result > 0)
             {
                 return "Client details created successfully";
             }
             else
             {
-                return "An error has occurred";
+                throw new Exception("An error has occured"); 
             }
         }
 
@@ -51,13 +51,14 @@ namespace ApiWithDapper.Repositories
             DynamicParameters dynamicParameters = new DynamicParameters();
             dynamicParameters.Add("ClientDetailsId", ClientDetailsId);
             var result = _dbConnection.Execute("DeleteClientDetails", dynamicParameters, commandType: CommandType.StoredProcedure);
-            if (result < 0)
+            //SET NOCOUNT OFF;
+            if (result > 0)
             {
                 return "Client details successfully deleted";
             }
             else
             {
-                return "An error occurred";
+                throw new Exception("An error has occurred");
             }
         }
 
@@ -69,14 +70,14 @@ namespace ApiWithDapper.Repositories
             dynamicParameters.Add("ClientDetailsId", clientDetailsId);
             dynamicParameters.Add("Address", address);
             var result = _dbConnection.Execute("UpdateClientDetailsAddress", dynamicParameters, commandType: CommandType.StoredProcedure);
-
-            if (result < 0)
+            //SET NOCOUNT OFF; 
+            if (result > 0)
             {
                 return "Client address updated successfully";
             }
             else
             {
-                return "An error has occurred";
+                throw new Exception("An error has occurred");
             }
 
 
@@ -88,13 +89,14 @@ namespace ApiWithDapper.Repositories
             dynamicParameters.Add("ClientDetailsId", clientDetailsId);
             dynamicParameters.Add("Cellphone", cellphone);
             var result = _dbConnection.Execute("UpdateClientDetailsCellphone", dynamicParameters, commandType: CommandType.StoredProcedure);
-            if (result < 0)
+            //SET NOCOUNT OFF;
+            if (result > 0)
             {
                 return "Client cellphone number successfully updated";
             }
             else
             {
-                return "An error has occurred";
+                throw new Exception("An error has occurred");
             }
         }
     }

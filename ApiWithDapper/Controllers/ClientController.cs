@@ -46,7 +46,7 @@ namespace ApiWithDapper.Controllers
                 var result = _clientServices.AddClient(client);
                 return Ok(result);
                 
-            }
+            }        
             catch (Exception e)
             {
                 //normally you would log the full error message 

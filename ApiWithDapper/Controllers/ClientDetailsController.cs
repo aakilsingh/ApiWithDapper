@@ -30,31 +30,75 @@ namespace ApiWithDapper.Controllers
         [HttpPost]
         public ActionResult<ClientDetails> CreateClientDetails(ClientDetails clientDetails)
         {
-            var result = _clientServices.AddClientDetails(clientDetails);
-            return Ok(result);
+            try
+            {
+                var result = _clientServices.AddClientDetails(clientDetails);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+
+                var x = new ObjectResult(e.Message);
+                x.StatusCode = 500;
+                return x;
+            }
+            
         }
 
         [HttpDelete]
         public ActionResult DeleteClientDetails(int ClientDetailsId)
         {
-            var result = _clientServices.RemoveClientDetails(ClientDetailsId);
-            return  Ok(result);
+            try
+            {
+                var result = _clientServices.RemoveClientDetails(ClientDetailsId);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+
+                var x = new ObjectResult(e.Message);
+                x.StatusCode = 500;
+                return x;
+            }
+           
         }
 
         [Route("UpdateClientDetails/Address")]
         [HttpPatch]
         public ActionResult UpdateClientDetailsAddress(int clientDetailsId,string address)
         {
-           var result= _clientServices.ChangeClientDetailsAddress(clientDetailsId,address);
-            return Ok(result);
+            try
+            {
+                var result = _clientServices.ChangeClientDetailsAddress(clientDetailsId, address);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+
+                var x = new ObjectResult(e.Message);
+                x.StatusCode = 500;
+                return x;
+            }
+           
         }
 
         [Route("UpdateClientDetails/Cellphone")]
         [HttpPatch]
         public ActionResult UpdateClientDetailsCellphone(int clientDetailsId, string cellphone)
         {
-            var result = _clientServices.ChangeClientDetailsCellphone(clientDetailsId,cellphone);   
-            return Ok(result);
+            try
+            {
+                var result = _clientServices.ChangeClientDetailsCellphone(clientDetailsId, cellphone);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+
+                var x = new ObjectResult(e.Message);
+                x.StatusCode = 500;
+                return x;
+            }
+            
         }
     }
   

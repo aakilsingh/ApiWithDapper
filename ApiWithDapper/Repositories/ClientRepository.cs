@@ -32,9 +32,18 @@ namespace ApiWithDapper.Repositories
 
             dynamicParameters.Add("Username", client.Username);
             dynamicParameters.Add("Password", client.Password);
-            var result = _dbConnection.Execute("InsertClient", dynamicParameters, commandType: CommandType.StoredProcedure);
+            if (client.Username == "")
+            {
+                throw new Exception("Empty username");
+            }
+            if (client.Password == "")
+            {
+                throw new Exception("Empty password");
+            }
 
-            if (result < 0)
+            var result = _dbConnection.Execute("InsertClient", dynamicParameters, commandType: CommandType.StoredProcedure);
+            //SET NOCOUNT OFF;
+            if (result > 0)
             {
                 return "Client Successfully created";
             }
@@ -48,19 +57,20 @@ namespace ApiWithDapper.Repositories
 
         public string DeleteClient(int ClientId)
         {
+            //sort this out, if client id does not match any in db
             if (ClientId == 0)
                 throw new Exception("Something went wrong exception delete client");
             DynamicParameters dynamicParameters = new DynamicParameters();//use this for parameters
             dynamicParameters.Add("ClientId", ClientId);//
             var result = _dbConnection.Execute("DeleteClient", dynamicParameters, commandType: CommandType.StoredProcedure);
-
-            if (result < 0)
+            //SET NOCOUNT OFF; in stored procedure so execute returns correct value, it returns -1 when this is set to on
+            if (result > 0)
             {
                 return "Client successfully deleted";
             }
             else
             {
-                return "An error has occurred";
+                throw new Exception("An error has occurred");
             }
 
 
@@ -72,13 +82,14 @@ namespace ApiWithDapper.Repositories
             dynamicParameters.Add("ClientId", clientId);
             dynamicParameters.Add("Username", username);
             var result = _dbConnection.Execute("UpdateClientUsername", dynamicParameters, commandType: CommandType.StoredProcedure);
-            if (result < 0)
+            //SET NOCOUNT OFF;
+            if (result > 0)
             {
                 return "Client username successfully updated";
             }
             else
             {
-                return "An error occurred";
+                throw new Exception("An error has occurred");
             }
 
         }
@@ -89,13 +100,14 @@ namespace ApiWithDapper.Repositories
             dynamicParameters.Add("ClientId", clientId);
             dynamicParameters.Add("Password", password);
             var result = _dbConnection.Execute("UpdateClientPassword", dynamicParameters, commandType: CommandType.StoredProcedure);
-            if (result < 0)
+            //SET NOCOUNT OFF;
+            if (result > 0)
             {
                 return "Client password successfully updated";
             }
             else
             {
-                return "An error occurred";
+                throw new Exception("An error has occurred");
             }
 
         }
